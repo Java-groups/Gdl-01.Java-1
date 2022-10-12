@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form th:action="@{/firebase/upload}" method="POST" enctype="multipart/form-data">
+		<label>File</label>
+		<input type="file" name="file">
+		<input type="submit" name="send">
+	</form>
+</body>
+</html>

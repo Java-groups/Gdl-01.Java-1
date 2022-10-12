@@ -9,3 +9,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        
+firebase:
+    bucket-name: ${bucket_name}
+    project-id: ${project_id}
+    service-account-key: ${service_account}

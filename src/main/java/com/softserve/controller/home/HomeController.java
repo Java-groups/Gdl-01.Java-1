@@ -2,13 +2,22 @@ package com.softserve.controller.home;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class HomeController {
 
-	@GetMapping(name = "/home")
+	@GetMapping("/")
 	public String welcome() {
-		return "index";
+		return "welcome/index";
+	}
+	
+	@GetMapping("/home")
+	public String home (){
+		return "upload";
+	}
+	
+	@GetMapping("/forgot-password")
+	public String forgotPassword() {
+		return "welcome/forgot-password";
 	}
 }

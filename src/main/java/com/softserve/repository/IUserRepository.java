@@ -10,4 +10,7 @@ import com.softserve.model.User;
 public interface IUserRepository extends JpaRepository<User, Integer>{
 
 	Optional<User> findByFirstName(String firstName);
+	
+	Optional<User> findByEmail(String email);
+	
 }
