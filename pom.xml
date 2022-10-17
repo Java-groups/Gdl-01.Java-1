@@ -9,6 +9,7 @@
 		<version>2.7.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+	<packaging>war</packaging>
 	<groupId>com.softserve</groupId>
 	<artifactId>sport-hub</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -68,10 +69,16 @@
 		        <artifactId>firebase-admin</artifactId>
 		        <version>7.0.1</version>
 		</dependency>
+		<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-tomcat</artifactId>
+				<scope>provided</scope>
+		</dependency>
         
 	</dependencies>
 
 	<build>
+		<finalName>${artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
