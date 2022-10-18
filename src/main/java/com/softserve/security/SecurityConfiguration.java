@@ -1,7 +1,6 @@
 package com.softserve.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -37,7 +36,7 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.authorizeRequests().antMatchers("/**", "/js/**", "/css/**", "/img/**").permitAll().anyRequest()
-				.authenticated().and().formLogin().loginPage("/").defaultSuccessUrl("/home").permitAll().and().logout()
+				.authenticated().and().formLogin().loginPage("/").defaultSuccessUrl("/homeArticle").permitAll().and().logout()
 				.invalidateHttpSession(true).clearAuthentication(true)
 				.logoutRequestMatcher(new AntPathRequestMatcher("/close")).logoutSuccessUrl("/").permitAll();
 

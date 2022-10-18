@@ -6,11 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 
+ * @author Luis Ábrego
+ * Entity for subcategory table
+ *
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +31,7 @@ public class SubCategory {
 	private String name;
 	
 	@Column(name = "description")
-	private Integer description;
+	private String description;
 	
 	@Column(name = "id_parent_category")
 	private Integer idParentCategory;

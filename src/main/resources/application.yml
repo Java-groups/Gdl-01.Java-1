@@ -14,3 +14,4 @@ firebase:
     bucket-name: ${bucket_name}
     project-id: ${project_id}
     service-account-key: ${service_account}
+    base-url: https://firebasestorage.googleapis.com/v0/b/sport-hub-11400.appspot.com/o/%s

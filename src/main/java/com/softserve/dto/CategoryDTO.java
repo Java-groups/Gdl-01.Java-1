@@ -2,13 +2,15 @@ package com.softserve.dto;
 
 import java.io.Serializable;
 import java.util.List;
-
-import com.softserve.model.Category;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 
+ * @author Jose Castellanos
+ * DTO for transfer from backend data to frontend
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +20,7 @@ public class CategoryDTO implements Serializable{
 
 	private String name;
 	
-	private List<Category> subCategories;
+	private List<CategoryDTO> subCategories;
+	
+	private List<ArticleDTO> articles;
 }

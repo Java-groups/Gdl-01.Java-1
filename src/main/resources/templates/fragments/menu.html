@@ -62,12 +62,15 @@
                 <li class="nav-item" th:each="category : ${categories}">
                     <a class="nav-link" href="#"style="color:black" th:text="${category.name}"> Treeview category <b class="float-end">&raquo;</b> </a>
                     <ul class="submenu dropdown-menu">
-                        <li th:each="subcategory : ${category.subCategories}">
+                    <div th:if="${category.subCategories !=  null}">
+                    	<li th:each="subcategory : ${category.subCategories}">
                             <a class="nav-link" href="#"style="color:black" th:text="${subcategory.name}">Submenu item 3 <b class="float-end">&raquo;</b> </a>
                             <ul class="submenu dropdown-menu">
-                                <li><a class="nav-link" href="#"style="color:black">Multi level 1</a></li>
+                                <li th:each="article : ${subcategory.articles}">
+                                <a class="nav-link" th:href="@{/homeArticle/article/description?id={article}(article=${article.idArticle})}"style="color:black" th:text="${article.title}">Multi level 1</a></li>
                             </ul>
                         </li>
+                    </div>
                     </ul>
                 </li>
                 <!------------------------------->
