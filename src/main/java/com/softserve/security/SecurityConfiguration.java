@@ -36,7 +36,7 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.authorizeRequests().antMatchers("/**", "/js/**", "/css/**", "/img/**").permitAll().anyRequest()
-				.authenticated().and().formLogin().loginPage("/").defaultSuccessUrl("/homeArticle").permitAll().and().logout()
+				.authenticated().and().formLogin().loginPage("/").defaultSuccessUrl("/start").permitAll().and().logout()
 				.invalidateHttpSession(true).clearAuthentication(true)
 				.logoutRequestMatcher(new AntPathRequestMatcher("/close")).logoutSuccessUrl("/").permitAll();
 

@@ -2,8 +2,11 @@ package com.softserve.service;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import com.softserve.model.Article;
@@ -18,9 +21,11 @@ public class ArticleService {
 	@Autowired
 	private SubCategoryService subCategoryService;
 	
+	private final Logger log = LoggerFactory.getLogger(getClass());
+	
 	private final String baseUrl;
 	
-	public ArticleService(@Value("${firabe.base-url}") String baseUrl) {
+	public ArticleService(@Value("${firebase.base-url}") String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 	public void loadArticleDescription(Model model, Integer idArticle) {
@@ -34,6 +39,9 @@ public class ArticleService {
 		}
 		
 		
+	}
+	public void welcomeTo(UserDetails userDetails) {
+		log.info("User log in: {}", userDetails.getUsername());
 	}
     
 }
