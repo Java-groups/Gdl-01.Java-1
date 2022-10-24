@@ -9,7 +9,7 @@
     <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" th:fragment="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" style="background-color: #D72130;" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" style="background-color: #D72130;" th:href="@{/homeArticle}">
             <div class="sidebar-brand-text mx-3">Sport Hub</div>
         </a>
 
@@ -22,8 +22,8 @@
                        let nextEl = element.nextElementSibling;
                        let parentEl  = element.parentElement;
                        let allSubmenus_array =	parentEl.querySelectorAll('.submenu');
-                       if(nextEl && nextEl.classList.contains('submenu')) {	
-                           e.preventDefault();	
+                       if(nextEl && nextEl.classList.contains('submenu')) {
+                           e.preventDefault();
                            if(nextEl.style.display == 'block'){
                                nextEl.style.display = 'none';
                            } else {
@@ -33,7 +33,7 @@
                    });
                })
            // end if innerWidth
-           }); 
+           });
            // DOMContentLoaded  end</script>
            <style>
             @media all {
@@ -41,7 +41,7 @@
                 position: static!important;
                 margin-left:0.7rem!important; margin-right:0.7rem!important; margin-bottom: .5rem!important;
             }
-        }	
+        }
         </style>
         <nav class="sidebar card py-2 mb-4">
             <ul class="nav flex-column">
@@ -67,7 +67,7 @@
                             <a class="nav-link" href="#"style="color:black" th:text="${subcategory.name}">Submenu item 3 <b class="float-end">&raquo;</b> </a>
                             <ul class="submenu dropdown-menu">
                                 <li th:each="article : ${subcategory.articles}">
-                                <a class="nav-link" th:href="@{/homeArticle/article/description?id={article}(article=${article.idArticle})}"style="color:black" th:text="${article.title}">Multi level 1</a></li>
+                                <a class="nav-link" th:href="@{/homeArticle/article/description?id={article}(article=${article.idArticle})}" style="color:black" th:text="${article.title}">Multi level 1</a></li>
                             </ul>
                         </li>
                     </div>
