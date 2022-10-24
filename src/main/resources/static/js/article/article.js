@@ -7,7 +7,17 @@ tinymce.init({
 });
 
 const btnCancel = document.querySelector("#btn-cancel");
-btnCancel.addEventListener("click", () => {
+btnCancel.addEventListener("click", customAlert);
+
+/*const btnSave = document.querySelector("#btn-save");
+btnSave.addEventListener("click", submitForm);
+
+function submitForm(){
+	//const articleForm = document.querySelector("#article-form");
+	document.forms["article-form"].submit();
+
+}*/
+function customAlert(){
 	swal({
 		title: "you are about to discard the changes!",
 		text: "Entered information will be missed! \n Are you sure?",
@@ -24,8 +34,7 @@ btnCancel.addEventListener("click", () => {
 				swal("Your imaginary file is safe!");
 			}
 		});
-});
-
+}
 function readURL(input) {
 	if (input.files && input.files[0]) {
 
