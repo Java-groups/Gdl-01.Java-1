@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.softserve.dto.CodeVerificationDTO;
 import com.softserve.dto.ForgotPasswordDT;
+import com.softserve.dto.ResetPasswordDTO;
 import com.softserve.security.user.UserServices;
 import com.softserve.service.ArticleService;
 import com.softserve.service.SubCategoryService;
@@ -52,6 +54,22 @@ public class HomeController {
 	public String codeVerification(@RequestParam(name = "id", required = false) int id, Model model, @ModelAttribute("code") CodeVerificationDTO codeVerificationDTO) {
 		this.userServices.verificationCodeProcess(id, model);
 		return "welcome/code-verification";
+	}
+	
+	@PostMapping("/forgot-password/recovery")
+	public String codeVerificationRequest(@RequestParam(name = "id", required = false) int id, Model model, @ModelAttribute("code") CodeVerificationDTO codeVerificationDTO, RedirectAttributes redirectAttributes) {
+		return this.userServices.codeVerificationRequest(id, model, codeVerificationDTO, redirectAttributes);
+	}
+	
+	@GetMapping("/reset-password")
+	public String resetPassword(Model model, @ModelAttribute("resetPassword") ResetPasswordDTO resetPasswordDTO) {
+		return "welcome/reset-password";
+	}
+	
+	@PostMapping("/reset-password")
+	public String resetPasswordSave(Model model, @ModelAttribute("resetPassword") ResetPasswordDTO resetPasswordDTO, @RequestParam(name = "id", required = false) int idUser) {
+		this.userServices.saveNewPasswordProcess(model, resetPasswordDTO, idUser);
+		return "welcome/reset-password";
 	}
 	
 	@GetMapping("/start")

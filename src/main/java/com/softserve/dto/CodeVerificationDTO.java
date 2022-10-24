@@ -25,4 +25,11 @@ public class CodeVerificationDTO implements Serializable{
 	private Integer fourthNumber;
 	
 	private Integer fifthNumber;
+
+	@Override
+	public String toString() {
+		return String.format("%d%d%d%d%d", firstNumber, secondNumber, thirdNumber, fourthNumber, fifthNumber);
+	}
+	
+	
 }

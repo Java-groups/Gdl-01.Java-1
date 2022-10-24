@@ -25,7 +25,7 @@ public class ArticleService {
 	
 	private final String baseUrl;
 	
-	public ArticleService(@Value("${firebase.base-url}") String baseUrl) {
+	public ArticleService(@Value("${firabe.base-url}") String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
 	public void loadArticleDescription(Model model, Integer idArticle) {

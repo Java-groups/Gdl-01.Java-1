@@ -21,4 +21,9 @@ public class TokenService {
 	public Optional<Token> findById(int id) {
 		return this.tokenRepository.findById(id);
 	}
+
+	public void deleteToken(Token token) {
+		this.tokenRepository.delete(token);
+		
+	}
 }
