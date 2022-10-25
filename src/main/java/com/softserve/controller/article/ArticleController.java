@@ -1,6 +1,5 @@
 package com.softserve.controller.article;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +16,7 @@ public class ArticleController {
 	private ArticleService articleService;
 	
 	@GetMapping("/article/new")
-	public String newArticle(Model model, @ModelAttribute("article") NewArticleDTO newArticleDTO) {
-		this.articleService.loadNewArticleContent(model, newArticleDTO);
-		return "article/new-article";
-	}
-	
-	@PostMapping("/article/new")
-	public String newArticleSave(Model model, @ModelAttribute("article") NewArticleDTO newArticleDTO) {
-		System.out.println("Some text");
+	public String newArticle(Model model) {
 		return "article/new-article";
 	}
 }
