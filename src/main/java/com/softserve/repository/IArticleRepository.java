@@ -12,6 +12,5 @@ import com.softserve.model.Article;
  */
 @Repository
 public interface IArticleRepository extends JpaRepository<Article, Integer>{
-    
 
 }

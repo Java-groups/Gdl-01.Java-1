@@ -43,7 +43,7 @@ public class HomeController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		java.util.Collection<? extends GrantedAuthority> col = authentication.getAuthorities();
 
-		model.addAttribute("role", col.toArray()[0]);
+		model.addAttribute("role", col.toArray()[0].toString());
 		return "index";
 	}
 	

@@ -7,13 +7,16 @@
 
         <!-- Page Wrapper -->
         <div id="wrapper">
-            <div sec:authorize="hasRole('ADMIN')">
             <!-- Admin Sidebar -->
-                <ul th:replace="fragments/admin-sidebar :: admin-sidebar"> </ul>
-            </div>
-            <div sec:authorize="hasRole('USER')">
-                <!-- User Sidebar -->
-                <ul th:replace="fragments/menu :: accordionSidebar"> </ul>
+<!--            <label th:text="${role}"></label>-->
+            <div th:switch="${role}">
+                <div th:case="USER">
+                    <ul th:replace="fragments/menu :: accordionSidebar"> </ul>
+                </div>
+                <div th:case="ADMIN">
+                    <ul th:replace="fragments/admin-sidebar :: admin-sidebar"> </ul>
+                </div>
+                <p th:case="*">Not specified</p>
             </div>
             <!-- End of Sidebar -->
 

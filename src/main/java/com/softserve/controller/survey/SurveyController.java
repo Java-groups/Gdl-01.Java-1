@@ -16,7 +16,6 @@ public class SurveyController {
         java.util.Collection<? extends GrantedAuthority> col = authentication.getAuthorities();
 
         model.addAttribute("role", col.toArray()[0]);
-        System.out.println("col.toArray()[0] = " + col.toArray()[0]);
         return "admin/surveys";
     }
 }

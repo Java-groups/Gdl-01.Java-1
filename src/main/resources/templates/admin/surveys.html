@@ -28,14 +28,12 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Surveys</h1>
-            <a class="nav-link" href="#" role="button">
-              <button type="button" class="btn btn-danger">New Survey</button>
-            </a>
+            <button type="button" id="newSurvey" class="btn btn-danger new-survey">New Survey</button>
           </div>
 
           <div class="row mx-5 mb-2" id="openClosedContainer">
-            <a class="text-xs mx-3" id="openedSurveyBtn">OPENED ()</a>
-            <a class="text-xs mx-3" id="closedSurveyBtn">CLOSED ()</a>
+            <button type="button" class="btn btn-light openedSurveyBtn">OPENED ()</button>
+            <button type="button" class="btn btn-light closedSurveyBtn">CLOSED ()</button>
           </div>
 
           <!-- Page Content Row -->
@@ -83,8 +81,7 @@
                   </h6>
                 </div>
 
-                <div class="card-body bg-gray-100">
-
+                <div class="card-body bg-gray-100" id="poll-info-container">
                   <h4 class="small font-weight-bold">
                     Server Migration <span class="float-right">20%</span>
                   </h4>
@@ -95,53 +92,8 @@
                          aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
 
+                  <div class="new-survey-container"> </div>
 
-                  <h4 class="small font-weight-bold">
-                    Sales Tracking <span class="float-right">40%</span>
-                  </h4>
-
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-dark" role="progressbar"
-                         style="width: 40%" aria-valuenow="40"
-                         aria-valuemin="0" aria-valuemax="100">
-                    </div>
-                  </div>
-
-
-                  <h4 class="small font-weight-bold">
-                    Customer Database <span class="float-right">60%</span>
-                  </h4>
-
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-dark" role="progressbar"
-                         style="width: 60%" aria-valuenow="60"
-                         aria-valuemin="0" aria-valuemax="100">
-                    </div>
-                  </div>
-
-
-                  <h4 class="small font-weight-bold">
-                    Payout Details <span class="float-right">80%</span>
-                  </h4>
-
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-dark" role="progressbar"
-                         style="width: 80%" aria-valuenow="80"
-                         aria-valuemin="0" aria-valuemax="100">
-                    </div>
-                  </div>
-
-
-                  <h4 class="small font-weight-bold">
-                    Account Setup <span class="float-right">Complete!</span>
-                  </h4>
-
-                  <div class="progress">
-                    <div class="progress-bar bg-dark" role="progressbar"
-                         style="width: 100%" aria-valuenow="100"
-                         aria-valuemin="0" aria-valuemax="100">
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -186,7 +138,7 @@
 
   <!-- bootstrap scripts -->
   <script th:replace="fragments/bootstrap-scripts :: bootstrap-scripts"> </script>
-  <script th:src="@{../static/js/surveys.js}"> </script>
+  <script th:src="@{/js/surveys-management.js}"></script>
 </body>
 
 </html>
