@@ -1,17 +1,12 @@
 package com.softserve.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -30,4 +25,8 @@ public class Team {
 	@OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_location")
 	private Location location;
+
+	@OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST)
+	private List<Article> articleList;
+
 }

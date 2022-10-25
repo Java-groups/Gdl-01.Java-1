@@ -90,7 +90,8 @@ public class UserServices implements UserDetailsService {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 	}
 
-	public void findByEmail(final String email, Model model) {
+	public Optional<User> findByEmail(final String email) {
+		return this.userRepository.findByEmail(email);
 	}
 
 	public void forgotPasswordProcess(ForgotPasswordDT forgotPasswordDT, Model model) {
@@ -216,15 +217,18 @@ public class UserServices implements UserDetailsService {
 			
 			User user = this.userRepository.findById(idUser).get();
 
-			validateInputs(resetPasswordDTO);
+
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			
+
+			validateInputs(resetPasswordDTO, encoder);
+
 			if(encoder.matches(resetPasswordDTO.getOldPassword(), user.getUserPassword())) {
 				user.setUserPassword(encoder.encode(resetPasswordDTO.getNewPassword()));
 				this.userRepository.save(user);
 				
 				model.addAttribute("generalMessage", "The password has been restored");
 			}else {
+				model.addAttribute("idUser", idUser);
 				model.addAttribute("error", "Your old password is wrong");
 			}	
 		} catch (ForgotPasswordProcess e) {
@@ -235,9 +239,13 @@ public class UserServices implements UserDetailsService {
 		
 	}
 
-	private void validateInputs(ResetPasswordDTO resetPasswordDTO) throws ForgotPasswordProcess{
+	private void validateInputs(ResetPasswordDTO resetPasswordDTO, BCryptPasswordEncoder encoder) throws ForgotPasswordProcess{
 		if(!resetPasswordDTO.getNewPassword().equals(resetPasswordDTO.getRepeatNewPassword())) {
 			throw new ForgotPasswordProcess("Your new password are not the same");
+		}
+
+		if(resetPasswordDTO.getOldPassword().equals(resetPasswordDTO.getNewPassword())){
+			throw new ForgotPasswordProcess("Your new password must be different.");
 		}
 		
 	}

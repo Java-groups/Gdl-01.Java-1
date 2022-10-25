@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column ( name = "id_article")
+    @Column ( name = "id_article", columnDefinition = "serial")
     private Integer idArticle;
 
     @Column ( name = "title")
@@ -33,10 +33,10 @@ public class Article {
     @Column ( name = "id_app_user")
     private Integer idAppUser;
 
-    @Column ( name = "is_commentable")
+    @Column ( name = "is_commentable", columnDefinition = "boolean default true")
     private Boolean isCommentable;
 
-    @Column ( name = "status")
+    @Column ( name = "status", columnDefinition = "serial4 default 1")
     private Integer status;
 
     @Column ( name = "creation_date")
@@ -44,5 +44,11 @@ public class Article {
 
     @Column ( name = "modification_date")
     private Timestamp modificationDate;
-    
+
+    @Column(name = "description_html")
+    private String descriptionHtml;
+
+    @ManyToOne
+    @JoinColumn(name = "id_team")
+    private Team team;
 }
