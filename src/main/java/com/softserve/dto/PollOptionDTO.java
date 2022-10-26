@@ -7,16 +7,14 @@ import lombok.ToString;
 import java.io.Serializable;
 
 @ToString
+@Getter @Setter
 public class PollOptionDTO implements Serializable {
-    @Getter @Setter
+
     private Integer id;
 
-    @Getter @Setter
     private String value;
 
-    @Getter @Setter
     private Integer order;
 
-    @Getter @Setter
     private Integer pollID;
 }

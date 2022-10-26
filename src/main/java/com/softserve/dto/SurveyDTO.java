@@ -6,11 +6,8 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
+@Getter @Setter
 @ToString
 public class SurveyDTO implements Serializable {
-    @Getter @Setter
     private PollDTO poll;
-
-    @Getter @Setter
-    private PollOptionDTO pollOptionDTO;
 }
