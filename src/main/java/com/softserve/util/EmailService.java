@@ -23,14 +23,14 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 @Service
-public class Email {
+public class EmailService {
 
 	private JavaMailSender emailSender;
 	private Configuration freemarkerConfig;
 	private String from;
 
-	public Email(@Value("${spring.mail.username}") String from, JavaMailSender emailSender,
-			Configuration freemarkerConfig) {
+	public EmailService(@Value("${spring.mail.username}") String from, JavaMailSender emailSender,
+						Configuration freemarkerConfig) {
 		this.from = from;
 		this.emailSender = emailSender;
 		this.freemarkerConfig = freemarkerConfig;

@@ -8,28 +8,20 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mail.MailSendException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.Model;
 
-import com.softserve.controller.article.ArticleController;
-import com.softserve.controller.home.HomeController;
 import com.softserve.dto.ForgotPasswordDT;
 import com.softserve.model.User;
-import com.softserve.repository.IArticleRepository;
 import com.softserve.repository.IUserRepository;
 import com.softserve.repository.TokenRepository;
 import com.softserve.security.user.UserServices;
-import com.softserve.util.Email;
+import com.softserve.util.EmailService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,7 +34,7 @@ class ArticleServiceTest {
 	private TokenRepository tokenRepository;
 
 	@Mock
-	private Email email;
+	private EmailService emailService;
 	
 	@Mock
 	private RequestService requestService;
