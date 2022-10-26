@@ -21,6 +21,7 @@ import com.softserve.model.User;
 import com.softserve.repository.IUserRepository;
 import com.softserve.repository.TokenRepository;
 import com.softserve.security.user.UserServices;
+
 import com.softserve.util.EmailService;
 
 @RunWith(SpringRunner.class)

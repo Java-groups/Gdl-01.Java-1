@@ -2,7 +2,8 @@ package com.softserve.model;
 
 import java.util.Date;
 import java.util.List;
-
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_app_user")
 	private Integer idAppUser;
 	

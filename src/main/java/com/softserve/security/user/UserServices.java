@@ -13,6 +13,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 
+import com.softserve.dto.UserDTO;
+import com.softserve.exceptions.UserException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +28,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.softserve.dto.CodeVerificationDTO;
 import com.softserve.dto.EmailContent;
 import com.softserve.dto.ForgotPasswordDT;
@@ -40,7 +41,6 @@ import com.softserve.repository.IUserRepository;
 import com.softserve.service.RequestService;
 import com.softserve.service.TokenService;
 import com.softserve.util.EmailService;
-
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -132,43 +132,6 @@ public class UserServices implements UserDetailsService {
 
 	}
 
-	private Map<String, Object> loadMap(ForgotPasswordDT forgotPasswordDT, User user) throws ForgotPasswordProcessException {
-		Map<String, Object> content = new HashMap<>();
-		LocalDateTime myDateObj = LocalDateTime.now();  
-	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
-	    
-		content.put("date", myDateObj.format(myFormatObj));
-		
-		String secureCodeToken = RandomStringUtils.random(5, false, true);
-		content.put("token", secureCodeToken);
-		
-		Optional<Request> request = this.requestService.findById(forgotPasswordDT.getIdRequest());
-		
-		if(request.isPresent()) {
-			Token token = new Token();
-			token.setValue(secureCodeToken);
-			token.setIsValid(true);
-			
-			Instant instant = Instant.now();
-			
-			token.setCreationDate(Timestamp.from(instant));
-			token.setExpireDate(Timestamp.from(instant.plusSeconds(15*60)));
-			token.setUser(user);
-			token.setRequest(request.get());
-			
-			this.tokenService.save(token);
-			
-			final String urlRecovery = String.format(URL_RECOVERY_PASSWORD, token.getIdToken());
-			
-			content.put("urlForgot", urlRecovery);
-			
-			return content;
-		}else {
-			throw new ForgotPasswordProcessException("The request of forgot password don't exists");
-		}
-		
-	}
-
 	public void verificationCodeProcess(int id, Model model) {
 		Optional<Token> tokenOptional = this.tokenService.findById(id);
 		model.addAttribute("idToken", id);
@@ -208,6 +171,77 @@ public class UserServices implements UserDetailsService {
 		}else {
 			model.addAttribute("error", "Your secure code was not founded.");
 			return "welcome/code-verification";
+		}
+		
+	}
+
+    public void saveAccount(Model model, UserDTO userDTO) {
+
+		try{
+			validateNewUser(userDTO);
+			loadAndSaveUSer(userDTO);
+
+			model.addAttribute("generalMessage","Your account has been created successfully, please contact your admin for role configuration");
+		}catch (UserException e){
+			model.addAttribute("error", e.getMessage());
+		}
+    }
+
+	private void loadAndSaveUSer(UserDTO userDTO) {
+		User user = new User();
+		final Timestamp now = Timestamp.from(Instant.now());
+		final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+ 		user.setFirstName(userDTO.getFirstName());
+		user.setEmail(userDTO.getEmail());
+		user.setLastName(userDTO.getLastName());
+		user.setStatus((byte) 1);
+		user.setModificationDate(now);
+		user.setCreationDate(now);
+		user.setUserPassword(encoder.encode(userDTO.getPassword()));
+
+		this.userRepository.save(user);
+	}
+
+	private void validateNewUser(UserDTO userDTO) throws UserException {
+
+		if (!userDTO.getPassword().equals(userDTO.getConfirmPassword()))
+			throw new UserException("Your password must be equals");
+	}
+
+	private Map<String, Object> loadMap(ForgotPasswordDT forgotPasswordDT, User user) throws ForgotPasswordProcessException {
+		Map<String, Object> content = new HashMap<>();
+		LocalDateTime myDateObj = LocalDateTime.now();  
+	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+	    
+		content.put("date", myDateObj.format(myFormatObj));
+		
+		String secureCodeToken = RandomStringUtils.random(5, false, true);
+		content.put("token", secureCodeToken);
+		
+		Optional<Request> request = this.requestService.findById(forgotPasswordDT.getIdRequest());
+		
+		if(request.isPresent()) {
+			Token token = new Token();
+			token.setValue(secureCodeToken);
+			token.setIsValid(true);
+			
+			Instant instant = Instant.now();
+			
+			token.setCreationDate(Timestamp.from(instant));
+			token.setExpireDate(Timestamp.from(instant.plusSeconds(15*60)));
+			token.setUser(user);
+			token.setRequest(request.get());
+			
+			this.tokenService.save(token);
+			
+			final String urlRecovery = String.format(URL_RECOVERY_PASSWORD, token.getIdToken());
+			
+			content.put("urlForgot", urlRecovery);
+			
+			return content;
+		}else {
+			throw new ForgotPasswordProcessException("The request of forgot password don't exists");
 		}
 		
 	}

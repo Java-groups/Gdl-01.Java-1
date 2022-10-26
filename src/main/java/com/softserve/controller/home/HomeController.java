@@ -1,5 +1,6 @@
 package com.softserve.controller.home;
 
+import com.softserve.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -87,6 +88,17 @@ public class HomeController {
 	public String articleDescription(Model model, @RequestParam(value = "id")Integer idArticle) {
 		this.articleService.loadArticleDescription(model, idArticle);
 		return "dashboard/article-description";
+	}
+
+	@GetMapping("/create-account")
+	public String createAccount(Model model, @ModelAttribute("user") UserDTO userDTO){
+		return "user/new-user";
+	}
+
+	@PostMapping("/create-account")
+	public String createAccountSave(Model model, @ModelAttribute("user") UserDTO userDTO){
+		this.userServices.saveAccount(model, userDTO);
+		return "user/new-user";
 	}
 
 	@GetMapping("/access-denied")
