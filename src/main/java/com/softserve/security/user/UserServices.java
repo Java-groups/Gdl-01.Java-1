@@ -13,6 +13,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 
+import com.softserve.dto.*;
+import com.softserve.exceptions.UserException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,10 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.softserve.dto.CodeVerificationDTO;
-import com.softserve.dto.EmailContent;
-import com.softserve.dto.ForgotPasswordDT;
-import com.softserve.dto.ResetPasswordDTO;
 import com.softserve.exceptions.ForgotPasswordProcess;
 import com.softserve.model.Request;
 import com.softserve.model.Role;
@@ -248,5 +246,39 @@ public class UserServices implements UserDetailsService {
 			throw new ForgotPasswordProcess("Your new password must be different.");
 		}
 		
+	}
+
+    public void saveAccount(Model model, UserDTO userDTO) {
+
+		try{
+			validateNewUser(userDTO);
+			loadAndSaveUSer(userDTO);
+
+			model.addAttribute("generalMessage","Your account has been created successfully, please contact your admin for role configuration");
+		}catch (UserException e){
+			model.addAttribute("error", e.getMessage());
+		}
+    }
+
+	private void loadAndSaveUSer(UserDTO userDTO) {
+		User user = new User();
+		final Timestamp now = Timestamp.from(Instant.now());
+		final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+ 		user.setFirstName(userDTO.getFirstName());
+		user.setEmail(userDTO.getEmail());
+		user.setLastName(userDTO.getLastName());
+		user.setStatus((byte) 1);
+		user.setModificationDate(now);
+		user.setCreationDate(now);
+		user.setUserPassword(encoder.encode(userDTO.getPassword()));
+
+		this.userRepository.save(user);
+	}
+
+	private void validateNewUser(UserDTO userDTO) throws UserException {
+
+		if (!userDTO.getPassword().equals(userDTO.getConfirmPassword()))
+			throw new UserException("Your password must be equals");
 	}
 }
