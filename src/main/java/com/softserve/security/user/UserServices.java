@@ -28,8 +28,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.softserve.exceptions.ForgotPasswordProcess;
+import com.softserve.dto.CodeVerificationDTO;
+import com.softserve.dto.EmailContent;
+import com.softserve.dto.ForgotPasswordDT;
+import com.softserve.dto.ResetPasswordDTO;
+import com.softserve.exceptions.ForgotPasswordProcessException;
 import com.softserve.model.Request;
 import com.softserve.model.Role;
 import com.softserve.model.Token;
@@ -37,8 +40,7 @@ import com.softserve.model.User;
 import com.softserve.repository.IUserRepository;
 import com.softserve.service.RequestService;
 import com.softserve.service.TokenService;
-import com.softserve.util.Email;
-
+import com.softserve.util.EmailService;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,7 +52,7 @@ public class UserServices implements UserDetailsService {
 	private IUserRepository userRepository;
 
 	@Autowired
-	private Email email;
+	private EmailService emailService;
 	
 	@Autowired
 	private TokenService tokenService;
@@ -107,7 +109,7 @@ public class UserServices implements UserDetailsService {
 				emailContent.setTemplate(TEMPLATE_FORGOT_PASSWORD);
 				emailContent.setModel(emailContentData);
 				
-				this.email.sendMessage(emailContent);
+				this.emailService.sendMessage(emailContent);
 				
 				model.addAttribute("emailSended", "Email has been sended successfully, please check your inbox");
 				log.info("Email was sended successfully for -> {}", forgotPasswordDT.getEmail());
@@ -117,7 +119,7 @@ public class UserServices implements UserDetailsService {
 				
 				log.error("Error when email was builded -> {}", e);
 				model.addAttribute("error" , "The email was not sended.");
-			} catch (ForgotPasswordProcess e) {
+			} catch (ForgotPasswordProcessException e) {
 				model.addAttribute("error" , "Something went wrong with the forgot password request, please contact your admin.");
 				log.error("Forgot password went wrong -> {}", e);
 				
@@ -128,43 +130,6 @@ public class UserServices implements UserDetailsService {
 			log.error("Email was not sended successfully for -> {}", forgotPasswordDT.getEmail());
 		}
 
-	}
-
-	private Map<String, Object> loadMap(ForgotPasswordDT forgotPasswordDT, User user) throws ForgotPasswordProcess{
-		Map<String, Object> content = new HashMap<>();
-		LocalDateTime myDateObj = LocalDateTime.now();  
-	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
-	    
-		content.put("date", myDateObj.format(myFormatObj));
-		
-		String secureCodeToken = RandomStringUtils.random(5, false, true);
-		content.put("token", secureCodeToken);
-		
-		Optional<Request> request = this.requestService.findById(forgotPasswordDT.getIdRequest());
-		
-		if(request.isPresent()) {
-			Token token = new Token();
-			token.setValue(secureCodeToken);
-			token.setIsValid(true);
-			
-			Instant instant = Instant.now();
-			
-			token.setCreationDate(Timestamp.from(instant));
-			token.setExpireDate(Timestamp.from(instant.plusSeconds(15*60)));
-			token.setUser(user);
-			token.setRequest(request.get());
-			
-			this.tokenService.save(token);
-			
-			final String urlRecovery = String.format(URL_RECOVERY_PASSWORD, token.getIdToken());
-			
-			content.put("urlForgot", urlRecovery);
-			
-			return content;
-		}else {
-			throw new ForgotPasswordProcess("The request of forgot password don't exists");
-		}
-		
 	}
 
 	public void verificationCodeProcess(int id, Model model) {
@@ -210,44 +175,6 @@ public class UserServices implements UserDetailsService {
 		
 	}
 
-	public void saveNewPasswordProcess(Model model, ResetPasswordDTO resetPasswordDTO, int idUser) {
-		try {
-			
-			User user = this.userRepository.findById(idUser).get();
-
-
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-			validateInputs(resetPasswordDTO, encoder);
-
-			if(encoder.matches(resetPasswordDTO.getOldPassword(), user.getUserPassword())) {
-				user.setUserPassword(encoder.encode(resetPasswordDTO.getNewPassword()));
-				this.userRepository.save(user);
-				
-				model.addAttribute("generalMessage", "The password has been restored");
-			}else {
-				model.addAttribute("idUser", idUser);
-				model.addAttribute("error", "Your old password is wrong");
-			}	
-		} catch (ForgotPasswordProcess e) {
-			model.addAttribute("error", e.getMessage());
-			model.addAttribute("idUser", idUser);
-			log.error("Error when inputs were validated");
-		}
-		
-	}
-
-	private void validateInputs(ResetPasswordDTO resetPasswordDTO, BCryptPasswordEncoder encoder) throws ForgotPasswordProcess{
-		if(!resetPasswordDTO.getNewPassword().equals(resetPasswordDTO.getRepeatNewPassword())) {
-			throw new ForgotPasswordProcess("Your new password are not the same");
-		}
-
-		if(resetPasswordDTO.getOldPassword().equals(resetPasswordDTO.getNewPassword())){
-			throw new ForgotPasswordProcess("Your new password must be different.");
-		}
-		
-	}
-
     public void saveAccount(Model model, UserDTO userDTO) {
 
 		try{
@@ -280,5 +207,80 @@ public class UserServices implements UserDetailsService {
 
 		if (!userDTO.getPassword().equals(userDTO.getConfirmPassword()))
 			throw new UserException("Your password must be equals");
+	}
+
+	private Map<String, Object> loadMap(ForgotPasswordDT forgotPasswordDT, User user) throws ForgotPasswordProcessException {
+		Map<String, Object> content = new HashMap<>();
+		LocalDateTime myDateObj = LocalDateTime.now();  
+	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+	    
+		content.put("date", myDateObj.format(myFormatObj));
+		
+		String secureCodeToken = RandomStringUtils.random(5, false, true);
+		content.put("token", secureCodeToken);
+		
+		Optional<Request> request = this.requestService.findById(forgotPasswordDT.getIdRequest());
+		
+		if(request.isPresent()) {
+			Token token = new Token();
+			token.setValue(secureCodeToken);
+			token.setIsValid(true);
+			
+			Instant instant = Instant.now();
+			
+			token.setCreationDate(Timestamp.from(instant));
+			token.setExpireDate(Timestamp.from(instant.plusSeconds(15*60)));
+			token.setUser(user);
+			token.setRequest(request.get());
+			
+			this.tokenService.save(token);
+			
+			final String urlRecovery = String.format(URL_RECOVERY_PASSWORD, token.getIdToken());
+			
+			content.put("urlForgot", urlRecovery);
+			
+			return content;
+		}else {
+			throw new ForgotPasswordProcessException("The request of forgot password don't exists");
+		}
+		
+	}
+
+	public void saveNewPasswordProcess(Model model, ResetPasswordDTO resetPasswordDTO, int idUser) {
+		try {
+			
+			User user = this.userRepository.findById(idUser).get();
+
+
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+			validateInputs(resetPasswordDTO, encoder);
+
+			if(encoder.matches(resetPasswordDTO.getOldPassword(), user.getUserPassword())) {
+				user.setUserPassword(encoder.encode(resetPasswordDTO.getNewPassword()));
+				this.userRepository.save(user);
+				
+				model.addAttribute("generalMessage", "The password has been restored");
+			}else {
+				model.addAttribute("idUser", idUser);
+				model.addAttribute("error", "Your old password is wrong");
+			}	
+		} catch (ForgotPasswordProcessException e) {
+			model.addAttribute("error", e.getMessage());
+			model.addAttribute("idUser", idUser);
+			log.error("Error when inputs were validated");
+		}
+		
+	}
+
+	private void validateInputs(ResetPasswordDTO resetPasswordDTO, BCryptPasswordEncoder encoder) throws ForgotPasswordProcessException {
+		if(!resetPasswordDTO.getNewPassword().equals(resetPasswordDTO.getRepeatNewPassword())) {
+			throw new ForgotPasswordProcessException("Your new password are not the same");
+		}
+
+		if(resetPasswordDTO.getOldPassword().equals(resetPasswordDTO.getNewPassword())){
+			throw new ForgotPasswordProcessException("Your new password must be different.");
+		}
+		
 	}
 }

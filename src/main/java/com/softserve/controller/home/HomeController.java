@@ -100,6 +100,7 @@ public class HomeController {
 		this.userServices.saveAccount(model, userDTO);
 		return "user/new-user";
 	}
+
 	@GetMapping("/access-denied")
 	public String accessDenied(){
 		return "access-denied/denied";
