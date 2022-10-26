@@ -1,0 +1,104 @@
+<div class="col-lg-12 mb-4" th:fragment="article-form">
+
+	<!-- Illustrations -->
+	<form th:action="@{/article/new}" method="POST" enctype="multipart/form-data" th:object="${article}"
+					id="article-form" name="article-form">
+	<div class="card shadow mb-4">
+		<div class="card-header py-3" style="margin-left: auto; margin-right: 0">
+			<button type="submit" style="background-color: white; border: none" class="text-danger" id="btn-cancel">Cancel</button>
+			<button type="submit" class="btn btn-danger" id="btn-save">Save</button>
+		</div>
+		
+		<div class="card-body">
+			<div class="text-center">
+				<!-- Insert an image here -->
+			</div>
+				<div class="form-row">
+					<div th:if="${generalMessage}" th:text="${generalMessage}" style="color: green"></div>
+					<div th:if="${error}" th:text="${error}" style="color: red"></div>
+				</div>
+				<div class="form-row">
+					<div class="file-upload">
+					  <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+					
+					  <div class="image-upload-wrap">
+					    <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" 
+					    	th:field="*{articleImage}"/>
+					    <div class="drag-text">
+					      <h3>Drag and drop a file or select add Image</h3>
+					    </div>
+					  </div>
+					  <div class="file-upload-content">
+					    <img class="file-upload-image" src="#" alt="your image" />
+					    <div class="image-title-wrap">
+					      <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+					    </div>
+					  </div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-4">
+						<label for="select-subcategory">SUBCATEGORY</label> 
+						<select class="form-control" id="input-subcategory" th:field="*{subCategory}" required>
+							<option th:each ="category: ${categoriesList}" th:text="${category.name}" th:value="${category.idCategory}">Small select</option>
+						</select>
+					</div>
+
+					<div class="form-group col-md-4">
+						<label for="select-team">TEAM</label> 
+						<select class="form-control" id="input-team" th:field="*{team}" required>
+							<option th:each ="team : ${teamList}" th:text="${team.description}" th:value ="${team.idTeam}">Small select</option>
+						</select>
+					</div>
+
+					<div class="form-group col-md-4">
+						<label for="select-location">LOCATION</label> 
+						<select class="form-control" id="input-location" th:field="*{location}" required>
+							<option th:each="location : ${locationList}" th:text="${location.description}" th:value="${location.idLocation}">Small select</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group col-md-14">
+					<label for="input-alt">ALT*</label> <input type="text"
+						class="form-control" id="input-alt"
+						placeholder="Alternative text for picture" required>
+				</div>
+				<div class="form-group col-md-14">
+					<label for="input-article-head-line">ARTICLE HEADLINE*</label> 
+					<input type="text" class="form-control" id="input-article-head-line"
+						placeholder="Alternative text for picture"
+						th:field="*{headLine}" required>
+				</div>
+
+				<div class="form-group col-md-14">
+					<label for="input-caption">CAPTION*</label> 
+					<input type="text" class="form-control" id="input-captuin"
+						placeholder="Write caption text here"
+						th:field="*{caption}" required>
+				</div>
+
+				<div class="form-group col-md-14">
+					<textarea id="default" th:field="*{articleDescriptionHtml}">Hello, World!</textarea>
+				</div>
+		</div>
+	</div>
+	</form>
+
+	<!-- Approach -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">Development
+				Approach</h6>
+		</div>
+		<div class="card-body">
+			<p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes
+				in order to reduce CSS bloat and poor page performance. Custom CSS
+				classes are used to create custom components and custom utility
+				classes.</p>
+			<p class="mb-0">Before working with this theme, you should become
+				familiar with the Bootstrap framework, especially the utility
+				classes.</p>
+		</div>
+	</div>
+
+</div>
