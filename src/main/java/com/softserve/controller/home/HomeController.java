@@ -88,4 +88,9 @@ public class HomeController {
 		this.articleService.loadArticleDescription(model, idArticle);
 		return "dashboard/article-description";
 	}
+
+	@GetMapping("/access-denied")
+	public String accessDenied(){
+		return "access-denied/denied";
+	}
 }
