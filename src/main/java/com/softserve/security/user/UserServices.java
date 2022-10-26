@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 
-import com.softserve.dto.*;
+import com.softserve.dto.UserDTO;
 import com.softserve.exceptions.UserException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
