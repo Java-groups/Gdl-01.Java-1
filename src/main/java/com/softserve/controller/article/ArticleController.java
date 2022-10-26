@@ -20,14 +20,14 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/article/new")
 	public String newArticle(Model model, @ModelAttribute("article") NewArticleDTO newArticleDTO) {
 		this.articleService.loadNewArticleContent(model, newArticleDTO);
 		return "article/new-article";
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/article/new")
 	public String newArticleSave(Model model, @ModelAttribute("article") NewArticleDTO newArticleDTO) {
 		this.articleService.saveArticle(model, newArticleDTO);

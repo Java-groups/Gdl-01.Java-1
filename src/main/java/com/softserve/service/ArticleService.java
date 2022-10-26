@@ -102,7 +102,7 @@ public class ArticleService {
 			loadArticle(newArticleDTO);
 
 			model.addAttribute("generalMessage", "The article was created successfully.");
-
+			loadNewArticleContent(model, newArticleDTO);
 		}catch (ArticleException articleException){
 			log.error("Error when article was be builded. ->{}", articleException);
 			model.addAttribute("error", "Something went wront when was creating the Article");
