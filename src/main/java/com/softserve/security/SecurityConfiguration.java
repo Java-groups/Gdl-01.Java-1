@@ -38,7 +38,7 @@ public class SecurityConfiguration {
 		httpSecurity.authorizeRequests().antMatchers("/**", "/js/**", "/css/**", "/img/**").permitAll().anyRequest()
 				.authenticated().and().formLogin().loginPage("/").defaultSuccessUrl("/homeArticle").permitAll().and().logout()
 				.invalidateHttpSession(true).clearAuthentication(true)
-				.logoutRequestMatcher(new AntPathRequestMatcher("/close")).logoutSuccessUrl("/").permitAll();
+				.logoutRequestMatcher(new AntPathRequestMatcher("/close")).logoutSuccessUrl("/").permitAll().and().csrf().disable();
 
 		return httpSecurity.build();
 	}

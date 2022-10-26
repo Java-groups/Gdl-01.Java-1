@@ -2,11 +2,13 @@ package com.softserve.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "poll_option")
+@ToString
 public class PollOption {
     @Id
     @Column(name = "id_poll_option")
@@ -22,7 +24,8 @@ public class PollOption {
     @Getter @Setter
     private Integer order;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_poll")
-    private Poll id_poll;
+    @Getter @Setter
+    private Poll poll;
 }
