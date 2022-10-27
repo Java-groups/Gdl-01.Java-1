@@ -157,14 +157,15 @@ public class UserServices implements UserDetailsService {
 				return "welcome/code-verification";
 			}else {
 				if(code.equals(token.getValue())) {
-					
-					
+
 					redirectAttributes.addFlashAttribute("idUser", token.getUser().getIdAppUser());
 					this.tokenService.deleteToken(token);
 					return "redirect:/reset-password";
+
 				}else {
 					log.error("Secure code bad -> {}", codeVerificationDTO.toString());
 					model.addAttribute("error", "Your secure code is incorrect.");
+					model.addAttribute("idToken",id);
 					return "welcome/code-verification";
 				}
 			}
@@ -251,20 +252,15 @@ public class UserServices implements UserDetailsService {
 			
 			User user = this.userRepository.findById(idUser).get();
 
-
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 			validateInputs(resetPasswordDTO, encoder);
 
-			if(encoder.matches(resetPasswordDTO.getOldPassword(), user.getUserPassword())) {
-				user.setUserPassword(encoder.encode(resetPasswordDTO.getNewPassword()));
-				this.userRepository.save(user);
+			user.setUserPassword(encoder.encode(resetPasswordDTO.getNewPassword()));
+			this.userRepository.save(user);
 				
-				model.addAttribute("generalMessage", "The password has been restored");
-			}else {
-				model.addAttribute("idUser", idUser);
-				model.addAttribute("error", "Your old password is wrong");
-			}	
+			model.addAttribute("generalMessage", "The password has been restored");
+			model.addAttribute("idUser", idUser);
 		} catch (ForgotPasswordProcessException e) {
 			model.addAttribute("error", e.getMessage());
 			model.addAttribute("idUser", idUser);
@@ -277,10 +273,5 @@ public class UserServices implements UserDetailsService {
 		if(!resetPasswordDTO.getNewPassword().equals(resetPasswordDTO.getRepeatNewPassword())) {
 			throw new ForgotPasswordProcessException("Your new password are not the same");
 		}
-
-		if(resetPasswordDTO.getOldPassword().equals(resetPasswordDTO.getNewPassword())){
-			throw new ForgotPasswordProcessException("Your new password must be different.");
-		}
-		
 	}
 }
