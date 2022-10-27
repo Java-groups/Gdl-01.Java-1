@@ -33,4 +33,10 @@ public class ArticleController {
 		this.articleService.saveArticle(model, newArticleDTO);
 		return "article/new-article";
 	}
+
+	@GetMapping("/article")
+    public String getArticles(Model model){
+		model.addAttribute("categories",this.categoryService.findByIdParentCategoryIsNull());
+    	return "article/most-popular"; 
+    }
 }

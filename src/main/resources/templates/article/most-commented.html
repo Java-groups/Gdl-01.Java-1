@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://kit.fontawesome.com/98100ee02f.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <link rel="stylesheet" href="most-commented.css">
+    </head>
+ <form>
+     <body>
+        <div class = "head">
+            <div class = "logo">
+                <a th:href ="@{/}">Sports Hub</a>
+            </div>
+        </div>
+
+        <div class="head-2">    
+            <div>
+                <h1>Home</h1>
+            </div>
+        </div>
+        <div>
+            <hr class="class-1" width="100"/>
+            <section>
+                <nav class="navbar">
+                    <a href="#">HOME</a>
+                    <a href="#">NBA</a>
+                    <a href="#">NFL</a>
+                    <a href="#">F1</a>
+                    <a href="#">SOCCER</a>
+                </nav>
+            </section>
+        </div>
+            <header class = "content header">
+                    <section class="icon">
+                        <i class="fa-sharp fa-solid fa-eye"></i>
+                        <a th:href ="@{/home}" class="prev">Preview</a>
+                    </section>
+                    <hr class="class-1" width="100"/>
+                    <section class="main">
+                        <h2 class="title">MAIN ARTICLES</h2>
+                    </section>
+                    <div>
+                        
+                        <select class="sel3">
+                            <option value="" >Category</option>
+                            <option th:each = "category : ${categories} " th:text = "${category.name}" th:value = "${category.name}"> Placeholder</option>
+                        </select>
+                        <select class = "sel1">
+                            
+                            <option value=""> SubCategory</option>
+                            <option th:each = "subcategory : ${subcategories} " th:text = "${subcategory.name}" th:value = "${subcategory.name}"> Placeholder</option>
+                        </select>
+                        <select class = "sel2">
+                            <option value="">Team</option>
+                            <option th:each = "team : ${teams} " th:text = "${team}" th:value = "${team}"> Placeholder</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select class = "sel4" with>
+                            <option value="">Article*</option>
+                            <option> Placeholder</option>
+                        </select>
+                    </div>
+                    <div>
+                        <a href="#" class="prev2">Delete</a>
+                        <a href="#" color="black" class="button">Show on the main page</a>
+                    </div>
+            </header>
+            <hr class="class-1"/>
+            <header class = "content header">
+                    <div>
+                        <select class="sel3">
+                            <option value="" >Category</option>
+                            <option th:each = "category : ${categories} " th:text = "${category.name}" th:value = "${category.name}"> Placeholder</option>
+                        </select>
+                        <select class = "sel1">
+                            
+                            <option value=""> SubCategory</option>
+                            <option th:each = "subcategory : ${subcategories} " th:text = "${subcategory.name}" th:value = "${subcategory.name}"> Placeholder</option>
+                        </select>
+                        <select class = "sel2">
+                            <option value="">Team</option>
+                            <option th:each = "team : ${teams} " th:text = "${team}" th:value = "${team}"> Placeholder</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select class = "sel4" with>
+                            <option value="">Article*</option>
+                            <option> Placeholder</option>
+                        </select>
+                    </div>
+                    <div>
+                        <a href="#" class="prev2">Delete</a>
+                        <a href="#" color="black" class="button">Show on the main page</a>
+                    </div>
+            </header>
+            <hr class="class-1"/>
+            <header class = "content header">
+                    <div>
+                        <select class="sel3">
+                            <option value="" >Category</option>
+                            <option th:each = "category : ${categories} " th:text = "${category.name}" th:value = "${category.name}"> Placeholder</option>
+                        </select>
+                        <select class = "sel1">
+                            
+                            <option value=""> SubCategory</option>
+                            <option th:each = "subcategory : ${subcategories} " th:text = "${subcategory.name}" th:value = "${subcategory.name}"> Placeholder</option>
+                        </select>
+                        <select class = "sel2">
+                            <option value="">Team</option>
+                            <option th:each = "team : ${teams} " th:text = "${team}" th:value = "${team}"> Placeholder</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select class = "sel4" with>
+                            <option value="">Article*</option>
+                            <option> Placeholder</option>
+                        </select>
+                    </div>
+                    <div>
+                        <a href="#" class="prev2">Delete</a>
+                        <a href="#" color="black" class="button">Show on the main page</a>
+                    </div>
+            </header>
+
+            <hr class="class-1"/>
+
+            <section class = "content sau">
+                <h2 class="title">Breakdown</h2>
+                <div>
+                    <select class="sel3">
+                        <option value="" >Category</option>
+                        <option th:each = "category : ${categories} " th:text = "${category.name}" th:value = "${category.name}"> Placeholder</option>
+                    </select>
+                    <select class = "sel1">
+                        
+                        <option value=""> SubCategory</option>
+                        <option th:each = "subcategory : ${subcategories} " th:text = "${subcategory.name}" th:value = "${subcategory.name}"> Placeholder</option>
+                    </select>
+                    <select class = "sel2">
+                        <option value="">Team</option>
+                        <option th:each = "team : ${teams} " th:text = "${team}" th:value = "${team}"> Placeholder</option>
+                    </select>
+                </div>
+
+                    <div>
+                        <a href="#" color="black" class="button">Show on the main page</a>
+                    </div>
+            </section>
+            <hr class="class-1"/>
+            <section class="content">
+                <h2 class="title">Photo Of the Day</h2>
+                <script>
+                    window.addEventListener('load', inicio, false);
+        
+                    function inicio() {
+                    document.getElementById('caja').addEventListener('dragover', permitirDrop, false);    
+                    document.getElementById('caja').addEventListener('drop', drop, false);
+                    }
+        
+                    function drop(ev){
+                        ev.preventDefault();
+                        var arch=new FileReader();
+                        arch.addEventListener('load',leer,false);
+                        arch.readAsDataURL(ev.dataTransfer.files[0]);        
+                    }      
+        
+                    function permitirDrop(ev){
+                        ev.preventDefault();
+                    }    
+        
+                    function leer(ev) {
+                        document.getElementById('caja').style.backgroundImage="url('" + ev.target.result + "')";
+                    }
+                </script>
+                    <div class="photo-area">
+                        <div class="box-container">
+                            <div class="box">
+                                <div >
+                                    <div>
+                                    <i class="fa-sharp fa-solid fa-camera"></i>
+                                    </div>
+                                    <a href="#"><b class="marked" >+Add Picture</b> <b> or drop it right here </br>You can add next formats: png. jpg. jpeg. tif</b></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="description">
+                        <div>
+                            <label class="label">ALT</label>
+                                <input type="text" size="100" class = "write-desc">
+                                <p></p>
+                            <label class="label-2">Photos Title</label>
+                                <input type="text" size="100" class = "write-desc">
+                                <p></p>
+                            <label class="label-3" >Short Description</label>
+                                 <input type="text" size="100"class = "write-desc">
+                                <p></p>
+                            <label class="label-4" >Author</label>
+                                <input type="text" size="100" class = "write-desc">
+                                <p></p>
+                            <section>
+                                <h2 class="prev-commented">Most commented</h2>
+                                <h2 class="prev-popular">Most popular</h2>
+                                <p></p>
+                                <div>
+                                    <label class="label-5" >FROM THE PERIOD</label>
+                                    <p></p>
+                                    <select class="sel5">
+                                        <option value="" >Day</option>
+                                        <option> Placeholder</option>
+                                    </select>
+                                </div>
+                                <p></p>
+                            </section>
+                        </div>
+                </section> 
+            
+        
+     </body>
+  </form>
+</html>
